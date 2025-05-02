@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="operation-container" data-operation-id="{{ operation.operation_id }}">
+    <h2>{{ operation.name }}</h2>
+    <p>{{ operation.description }}</p>
+    <form id="operation-form">
+        <div id="operation-parameters"></div>
+        <button type="submit">Calculate</button>
+    </form>
+    <div id="operation-result"></div>
+</div>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+    window.renderOperationForm({{ operation|tojson }});
+});
+</script>
+{% endblock %}
