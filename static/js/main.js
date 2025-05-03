@@ -55,7 +55,9 @@ window.renderOperationForm = function(operation) {
             });
             const res = await resp.json();
             if (res.success) {
-                resultDiv.innerHTML = renderResult(res.result);
+                resultDiv.innerHTML = "Rendering..."
+                const rendered = await renderResult(operation.operation_id, res.result);
+                resultDiv.innerHTML = rendered;
             } else {
                 resultDiv.innerHTML = `<div class="error">${res.error}</div>`;
             }
@@ -65,10 +67,33 @@ window.renderOperationForm = function(operation) {
     };
 };
 
-// Pretty-print result
-function renderResult(result) {
-    if (typeof result === "object") {
-        return `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+// Render result using server-side rendering functionality
+async function renderResult(operationId, result) {
+    try {
+        const response = await fetch(`/api/renderings/${operationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ result })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch rendering');
+        }
+
+        const data = await response.json();
+        if (data.success) {
+            return `<div>${data.rendered_output}</div>`;
+        } else {
+            throw new Error(data.error || 'Rendering error');
+        }
+    } catch (error) {
+        console.error('Error rendering result:', error);
+        // Fallback to default JSON pretty-printing
+        if (typeof result === "object") {
+            return `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+        }
+        return `<div>${result}</div>`;
     }
-    return `<div>${result}</div>`;
 }
