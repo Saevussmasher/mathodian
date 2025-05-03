@@ -1,14 +1,49 @@
-// Fetch and render the main menu
-async function renderMenu() {
+// Sidebar and burger menu logic
+function openSidebar() {
+    const sidebar = document.getElementById("sidebar-menu");
+    const overlay = document.getElementById("overlay");
+    if (sidebar) sidebar.setAttribute("aria-hidden", "false");
+    if (overlay) overlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+function closeSidebar() {
+    const sidebar = document.getElementById("sidebar-menu");
+    const overlay = document.getElementById("overlay");
+    if (sidebar) sidebar.setAttribute("aria-hidden", "true");
+    if (overlay) overlay.style.display = "none";
+    document.body.style.overflow = "";
+}
+
+function setupBurgerMenu() {
+    const burgerBtn = document.getElementById("burger-menu-btn");
+    const closeBtn = document.getElementById("close-sidebar-btn");
+    const overlay = document.getElementById("overlay");
+    if (burgerBtn) burgerBtn.onclick = openSidebar;
+    if (closeBtn) closeBtn.onclick = closeSidebar;
+    if (overlay) overlay.onclick = closeSidebar;
+
+    // Accessibility: close on Escape
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") closeSidebar();
+    });
+}
+
+// Fetch and render the sidebar menu
+async function renderSidebarMenu() {
     const menu = document.getElementById("main-menu");
     if (!menu) return;
     const resp = await fetch("/api/operations");
     const ops = await resp.json();
     menu.innerHTML = ops.map(op =>
-        `<a href="/operation/${op.operation_id}">${op.name}</a>`
-    ).join(" | ");
+        `<a href="/operation/${op.operation_id}" onclick="closeSidebar()">${op.name}</a>`
+    ).join("");
 }
-window.addEventListener("DOMContentLoaded", renderMenu);
+
+window.addEventListener("DOMContentLoaded", () => {
+    setupBurgerMenu();
+    renderSidebarMenu();
+});
 
 // Render operation form dynamically
 window.renderOperationForm = function(operation) {

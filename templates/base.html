@@ -7,9 +7,18 @@
 </head>
 <body>
     <header>
+        <button id="burger-menu-btn" aria-label="Open menu" class="burger-menu-btn">
+            <span class="burger-bar"></span>
+            <span class="burger-bar"></span>
+            <span class="burger-bar"></span>
+        </button>
         <h1><a href="/">Mathodian</a></h1>
-        <nav id="main-menu"></nav>
     </header>
+    <aside id="sidebar-menu" class="sidebar-menu" aria-hidden="true">
+        <button id="close-sidebar-btn" aria-label="Close menu" class="close-sidebar-btn">&times;</button>
+        <nav id="main-menu"></nav>
+    </aside>
+    <div id="overlay" class="sidebar-overlay" tabindex="-1"></div>
     <main>
         {% block content %}{% endblock %}
     </main>

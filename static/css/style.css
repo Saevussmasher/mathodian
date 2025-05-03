@@ -10,7 +10,32 @@ header {
     padding: 1em 2em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.burger-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 2.5em;
+    width: 2.5em;
+    margin-right: 1em;
+    padding: 0;
+    z-index: 1101;
+}
+
+.burger-bar {
+    display: block;
+    width: 2em;
+    height: 0.3em;
+    background: #fff;
+    margin: 0.25em 0;
+    border-radius: 2px;
+    transition: all 0.3s;
 }
 
 header h1 a{
@@ -22,14 +47,82 @@ header h1 {
     margin: 0;
     font-size: 2em;
 }
-header nav a {
+/* Remove old nav styles */
+header nav {
+    display: none !important;
+}
+
+/* Sidebar styles */
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 240px;
+    height: 100%;
+    background: #2d3e50;
+    color: #fff;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    padding: 2em 1em 1em 1em;
+    transition: left 0.3s;
+    z-index: 1102;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-menu[aria-hidden="false"] {
+    left: 0;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2em;
+    position: absolute;
+    top: 0.5em;
+    right: 0.7em;
+    cursor: pointer;
+    z-index: 1103;
+}
+
+.sidebar-menu nav {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.sidebar-menu nav a {
     color: #fff;
     text-decoration: none;
-    margin: 0 1em;
+    padding: 0.7em 0.5em;
+    border-radius: 4px;
     font-weight: bold;
+    margin-bottom: 0.3em;
+    transition: background 0.2s;
 }
-header nav a:hover {
-    text-decoration: underline;
+
+.sidebar-menu nav a:hover,
+.sidebar-menu nav a.active {
+    background: #1a2533;
+}
+
+/* Overlay styles */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(45,62,80,0.3);
+    z-index: 1100;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+.sidebar-menu[aria-hidden="false"] ~ .sidebar-overlay {
+    display: block;
+    opacity: 1;
 }
 main {
     max-width: 800px;
