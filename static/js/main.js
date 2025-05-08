@@ -137,7 +137,6 @@ async function renderResult(operationId, result) {
 
 // --- Comment Functionality ---
 
-// Render comments (tolerates XSS for demonstration)
 function renderComments(comments) {
     const commentsList = document.querySelector('.comments-list');
     if (!commentsList) return;
