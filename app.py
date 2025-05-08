@@ -88,7 +88,7 @@ def static_files(filename):
 def submit_comment():
     comment = request.json.get("comment")
     if comment: # Ensure comment is not empty
-        comments.insert(comment)
+        comments.insert(0,comment)
     # Always return the current list of comments, even if submission was empty
     return jsonify({"success": True, "comments": comments})
 
