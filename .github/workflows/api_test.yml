@@ -29,6 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest pytest-cov
+          touch /tmp/report.txt
 
       - name: qodo-cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.12
