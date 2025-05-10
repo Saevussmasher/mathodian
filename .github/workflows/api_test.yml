@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -31,7 +31,7 @@ jobs:
           pip install pytest pytest-cov
 
       - name: qodo-cover
-        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@latest
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@0.3.7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
