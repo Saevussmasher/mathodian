@@ -24,7 +24,11 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      # ... set up your environment, e.g., install dependencies, etc.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
 
       - name: qodo-cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.12
