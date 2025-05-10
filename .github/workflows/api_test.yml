@@ -43,7 +43,7 @@ jobs:
           test_command: "pytest --cov=. --cov-report=xml --cov-report=term" # your test command
           model: gemini/gemini-2.0-flash-lite
           max_iterations: 3
-          desired_coverage: 90
+          desired_coverage: 99
           run_each_test_separately: true
           source_folder: ./api/operations
           test_folder: ./api/tests
