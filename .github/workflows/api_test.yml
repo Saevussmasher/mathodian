@@ -1,34 +1,43 @@
-name: Qodo Cover
+name: Run Qodo-Cover
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+    types:
+      - opened # Trigger only when a pull request is opened
+
+permissions:
+  pull-requests: write # Allows commenting on pull requests
+  contents: write # Allows reading and writing files
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    container:
-      image: python:3.11-slim
+  run-qodo-cover:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y gcc git
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install git+https://github.com/qodo-ai/qodo-cover.git
-          pip install pytest-cov
+          pip install pytest pytest-cov
 
-      - name: Run qodo cover
-        run: |
-          cover-agent \
-          --code-coverage-report-path "coverage.xml" \
-          --test-command "pytest --cov=. --cov-report=xml --cov-report=term" \
-          --test-command-dir "api/tests" \
-          --coverage-type "cobertura" \
-          --desired-coverage 80 \
-          --max-iterations 10
+      - name: qodo-cover
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_language: python
+          project_root: .
+          code_coverage_report_path: coverage.xml
+          test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
+          model: gpt-4o
+
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
