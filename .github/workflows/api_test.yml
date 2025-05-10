@@ -31,7 +31,7 @@ jobs:
           pip install pytest pytest-cov
 
       - name: qodo-cover
-        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@latest
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
