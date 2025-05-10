@@ -17,7 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y gcc
+          apt-get update && apt-get install -y gcc git
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install git+https://github.com/qodo-ai/qodo-cover.git
