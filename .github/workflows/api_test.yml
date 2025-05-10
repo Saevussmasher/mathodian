@@ -1,6 +1,7 @@
 name: Run Qodo-Cover
-
+ 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
