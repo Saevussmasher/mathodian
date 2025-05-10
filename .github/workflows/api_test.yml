@@ -21,8 +21,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install git+https://github.com/qodo-ai/qodo-cover.git
-          pip install pytest-cov poetry
-          poetry install
+          pip install pytest-cov
 
       - name: Run qodo cover
         run: |
