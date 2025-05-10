@@ -1,0 +1,1024 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test Results</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 20px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            }
+            th, td {
+                border: 1px solid #ddd;
+                text-align: left;
+                padding: 8px;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            .status-pass {
+                color: green;
+            }
+            .status-fail {
+                color: red;
+            }
+            pre {
+                background-color: #282c34 !important;
+                color: #ffffff !important;
+                padding: 10px;
+                border-radius: 5px;
+                overflow-x: auto;
+                white-space: pre-wrap;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.1em;  /* Slightly larger font size */
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Exit Code</th>
+                <th>Language</th>
+                <th>Modified Test File</th>
+                <th>Details</th>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch_raises_value_error(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Dimension mismatch</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+_____ TestLinearSystemOperation.test_dimension_mismatch_raises_value_error _____
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f5d8a5fb4f0>
+
+    def test_dimension_mismatch_raises_value_error(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Dimension mismatch
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  307    238    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch_raises_value_error - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch_raises_value_error(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Dimension mismatch
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [3, 6]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Check that A @ x == b for a particular solution (though not strictly required by the prompt)</span>
+<span class="diff-added">+         x = np.array(result["particular_solution"])</span>
+<span class="diff-added">+         np.testing.assert_allclose(np.array(A) @ x, np.array(b))</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f4243513580>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [3, 6]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+        x = np.array(result["particular_solution"])
+        np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:29: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         22      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  310    237    24%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [3, 6]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+    x = np.array(result["particular_solution"])
+    np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import numpy as np
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f303471f610>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  308    237    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch_raises_value_error(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Dimension mismatch</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+_____ TestLinearSystemOperation.test_dimension_mismatch_raises_value_error _____
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f3b32313640>
+
+    def test_dimension_mismatch_raises_value_error(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Dimension mismatch
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  307    238    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch_raises_value_error - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch_raises_value_error(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Dimension mismatch
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [3, 6]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Check that A @ x == b for a particular solution (though not strictly required by the prompt)</span>
+<span class="diff-added">+         x = np.array(result["particular_solution"])</span>
+<span class="diff-added">+         np.testing.assert_allclose(np.array(A) @ x, np.array(b))</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7faf34ffb610>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [3, 6]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+        x = np.array(result["particular_solution"])
+        np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:29: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         22      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  310    237    24%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [3, 6]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+    x = np.array(result["particular_solution"])
+    np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import numpy as np
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f320c8075e0>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  308    237    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python"></code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch_raises_value_error(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Dimension mismatch</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+_____ TestLinearSystemOperation.test_dimension_mismatch_raises_value_error _____
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f4e6732b580>
+
+    def test_dimension_mismatch_raises_value_error(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Dimension mismatch
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  307    238    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch_raises_value_error - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch_raises_value_error(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Dimension mismatch
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [3, 6]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Check that A @ x == b for a particular solution (though not strictly required by the prompt)</span>
+<span class="diff-added">+         x = np.array(result["particular_solution"])</span>
+<span class="diff-added">+         np.testing.assert_allclose(np.array(A) @ x, np.array(b))</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7fd55400f640>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [3, 6]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+        x = np.array(result["particular_solution"])
+        np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:29: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         22      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  310    237    24%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [3, 6]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Check that A @ x == b for a particular solution (though not strictly required by the prompt)
+    x = np.array(result["particular_solution"])
+    np.testing.assert_allclose(np.array(A) @ x, np.array(b))
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import numpy as np
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f2e44d2b5e0>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         30     30     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  308    237    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python"></code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+        </table>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    </body>
+    </html>
+    
