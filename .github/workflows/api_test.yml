@@ -1,18 +1,7 @@
 name: Run the qodo-cover action
 
 on:
- pull_request:
-  branches:
-   - main
-  types:
-   - opened # Trigger only when a pull request is opened
- workflow_dispatch:
-   inputs:
-     desired_coverage:
-       description: "Desired coverage percentage"
-       required: false
-       default: "70"
-        
+ workflow_dispatch:     
 permissions:
   pull-requests: write # Allows commenting on pull requests
   contents: write # Allows reading and writing files
