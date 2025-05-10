@@ -1,0 +1,2352 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test Results</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 20px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            }
+            th, td {
+                border: 1px solid #ddd;
+                text-align: left;
+                padding: 8px;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            .status-pass {
+                color: green;
+            }
+            .status-fail {
+                color: red;
+            }
+            pre {
+                background-color: #282c34 !important;
+                color: #ffffff !important;
+                padding: 10px;
+                border-radius: 5px;
+                overflow-x: auto;
+                white-space: pre-wrap;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.1em;  /* Slightly larger font size */
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Exit Code</th>
+                <th>Language</th>
+                <th>Modified Test File</th>
+                <th>Details</th>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.combinatorics import CombinatoricsOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCombinatoricsOperation:</span>
+<span class="diff-unchanged">      </span>
+<span class="diff-unchanged">      def test_permutations_without_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 1}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 60</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Permutations without repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_permutations_with_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 2}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 125</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Permutations with repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_combinations_without_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 3}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 10</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Combinations without repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_permutations_without_repetition_k_greater_than_n(self):</span>
+<span class="diff-unchanged">          params = {"n": 3, "k": 5, "problem_type": 1}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="k cannot be greater than n for permutations without repetition."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_negative_n_or_k_values(self):</span>
+<span class="diff-unchanged">          params = {"n": -5, "k": 3, "problem_type": 1}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="n and k must be non-negative integers."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_invalid_problem_type(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 5}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="Invalid problem type."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_combinations_with_repetition_valid(self):</span>
+<span class="diff-added">+         params = {"n": 5, "k": 3, "problem_type": 4}</span>
+<span class="diff-added">+         result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["result"] == 35</span>
+<span class="diff-added">+         assert result["problem_type"] == "Combinations with repetition"</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 7 items
+
+api/tests/test_combinatorics.py .......                                  [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39      3    92%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         35      0   100%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  306    207    32%
+Coverage XML written to file coverage.xml
+============================== 7 passed in 0.11s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_combinations_with_repetition_valid(self):
+    params = {"n": 5, "k": 3, "problem_type": 4}
+    result = CombinatoricsOperation.calculate(params)
+    assert result["result"] == 35
+    assert result["problem_type"] == "Combinations with repetition"
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.combinatorics import CombinatoricsOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCombinatoricsOperation:</span>
+<span class="diff-unchanged">      </span>
+<span class="diff-unchanged">      def test_permutations_without_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 1}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 60</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Permutations without repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_permutations_with_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 2}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 125</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Permutations with repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_combinations_without_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 3}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 10</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Combinations without repetition"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_permutations_without_repetition_k_greater_than_n(self):</span>
+<span class="diff-unchanged">          params = {"n": 3, "k": 5, "problem_type": 1}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="k cannot be greater than n for permutations without repetition."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_negative_n_or_k_values(self):</span>
+<span class="diff-unchanged">          params = {"n": -5, "k": 3, "problem_type": 1}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="n and k must be non-negative integers."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">      def test_invalid_problem_type(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 5}</span>
+<span class="diff-unchanged">          with pytest.raises(ValueError, match="Invalid problem type."):</span>
+<span class="diff-unchanged">              CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-added">+     def test_combinations_with_repetition_k_is_zero(self):</span>
+<span class="diff-added">+         params = {"n": 5, "k": 0, "problem_type": 4}</span>
+<span class="diff-added">+         result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["result"] == 1</span>
+<span class="diff-added">+         assert result["problem_type"] == "Combinations with repetition"</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">      def test_combinations_with_repetition_valid(self):</span>
+<span class="diff-unchanged">          params = {"n": 5, "k": 3, "problem_type": 4}</span>
+<span class="diff-unchanged">          result = CombinatoricsOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["result"] == 35</span>
+<span class="diff-unchanged">          assert result["problem_type"] == "Combinations with repetition"</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 8 items
+
+api/tests/test_combinatorics.py ........                                 [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39      3    92%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40      0   100%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  311    207    33%
+Coverage XML written to file coverage.xml
+============================== 8 passed in 0.11s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_combinations_with_repetition_k_is_zero(self):
+    params = {"n": 5, "k": 0, "problem_type": 4}
+    result = CombinatoricsOperation.calculate(params)
+    assert result["result"] == 1
+    assert result["problem_type"] == "Combinations with repetition"
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Incorrect dimension</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_dimension_mismatch _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f2de5803640>
+
+    def test_dimension_mismatch(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Incorrect dimension
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  317    248    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Incorrect dimension
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [2, 4]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Verify that a particular solution is returned (although not strictly testable)</span>
+<span class="diff-added">+         assert isinstance(result["particular_solution"], list)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f8eb5117550>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [2, 4]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Verify that a particular solution is returned (although not strictly testable)
+        assert isinstance(result["particular_solution"], list)
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:28: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         21      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  319    247    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [2, 4]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Verify that a particular solution is returned (although not strictly testable)
+    assert isinstance(result["particular_solution"], list)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7fb535317520>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  318    247    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Incorrect dimension</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_dimension_mismatch _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7ff40ef235e0>
+
+    def test_dimension_mismatch(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Incorrect dimension
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  317    248    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Incorrect dimension
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [2, 4]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Verify that a particular solution is returned (although not strictly testable)</span>
+<span class="diff-added">+         assert isinstance(result["particular_solution"], list)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f2f46313640>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [2, 4]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Verify that a particular solution is returned (although not strictly testable)
+        assert isinstance(result["particular_solution"], list)
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:28: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         21      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  319    247    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [2, 4]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Verify that a particular solution is returned (although not strictly testable)
+    assert isinstance(result["particular_solution"], list)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f3b07327610>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  318    247    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_metadata(self):</span>
+<span class="diff-added">+         metadata = LinearSystemOperation.metadata()</span>
+<span class="diff-added">+         assert metadata["operation_id"] == "linear_system"</span>
+<span class="diff-added">+         assert metadata["name"] == "Linear Equation System Solver"</span>
+<span class="diff-added">+         assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."</span>
+<span class="diff-added">+         assert isinstance(metadata["parameters"], list)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+___________________ TestLinearSystemOperation.test_metadata ____________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7ff8e07135e0>
+
+    def test_metadata(self):
+        metadata = LinearSystemOperation.metadata()
+        assert metadata["operation_id"] == "linear_system"
+        assert metadata["name"] == "Linear Equation System Solver"
+        assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."
+        assert isinstance(metadata["parameters"], list)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     26    45%
+--------------------------------------------------------
+TOTAL                                  317    240    24%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_metadata - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_metadata(self):
+    metadata = LinearSystemOperation.metadata()
+    assert metadata["operation_id"] == "linear_system"
+    assert metadata["name"] == "Linear Equation System Solver"
+    assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."
+    assert isinstance(metadata["parameters"], list)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_dimension_mismatch(self):</span>
+<span class="diff-added">+         A = [[1, 2], [3, 4]]</span>
+<span class="diff-added">+         b = [1, 2, 3]  # Incorrect dimension</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Dimension mismatch between A and b."):</span>
+<span class="diff-added">+             LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_dimension_mismatch _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f31669fb5b0>
+
+    def test_dimension_mismatch(self):
+        A = [[1, 2], [3, 4]]
+        b = [1, 2, 3]  # Incorrect dimension
+        params = {"A": A, "b": b}
+        with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+            LinearSystemOperation.calculate(params)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      5    81%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  317    248    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_dimension_mismatch - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_dimension_mismatch(self):
+    A = [[1, 2], [3, 4]]
+    b = [1, 2, 3]  # Incorrect dimension
+    params = {"A": A, "b": b}
+    with pytest.raises(ValueError, match="Dimension mismatch between A and b."):
+        LinearSystemOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_infinite_solutions(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [2, 4]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "infinite"</span>
+<span class="diff-added">+         assert "Infinite solutions exist." in result["message"]</span>
+<span class="diff-added">+         # Verify that a particular solution is returned (although not strictly testable)</span>
+<span class="diff-added">+         assert isinstance(result["particular_solution"], list)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+______________ TestLinearSystemOperation.test_infinite_solutions _______________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f5a3f5175e0>
+
+    def test_infinite_solutions(self):
+        A = [[1, 2], [2, 4]]
+        b = [2, 4]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "infinite"
+        assert "Infinite solutions exist." in result["message"]
+        # Verify that a particular solution is returned (although not strictly testable)
+        assert isinstance(result["particular_solution"], list)
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+
+api/tests/test_linear_system.py:28: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         21      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  319    247    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_infinite_solutions - AssertionError: assert 'Unique solution found.' in 'Infinite solutions exist. One particular solution is shown.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_infinite_solutions(self):
+    A = [[1, 2], [2, 4]]
+    b = [2, 4]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "infinite"
+    assert "Infinite solutions exist." in result["message"]
+    # Verify that a particular solution is returned (although not strictly testable)
+    assert isinstance(result["particular_solution"], list)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_no_solution(self):</span>
+<span class="diff-added">+         A = [[1, 2], [2, 4]]</span>
+<span class="diff-added">+         b = [1, 3]</span>
+<span class="diff-added">+         params = {"A": A, "b": b}</span>
+<span class="diff-added">+         result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-added">+         assert result["solution_type"] == "none"</span>
+<span class="diff-added">+         assert "No solution exists for this system." in result["message"]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________ TestLinearSystemOperation.test_no_solution __________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7f1169d135e0>
+
+    def test_no_solution(self):
+        A = [[1, 2], [2, 4]]
+        b = [1, 3]
+        params = {"A": A, "b": b}
+        result = LinearSystemOperation.calculate(params)
+        assert result["solution_type"] == "none"
+        assert "No solution exists for this system." in result["message"]
+    
+>       assert "Unique solution found." in result["message"]
+E       AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+
+api/tests/test_linear_system.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         20      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  318    247    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_no_solution - AssertionError: assert 'Unique solution found.' in 'No solution exists for this system.'
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_no_solution(self):
+    A = [[1, 2], [2, 4]]
+    b = [1, 3]
+    params = {"A": A, "b": b}
+    result = LinearSystemOperation.calculate(params)
+    assert result["solution_type"] == "none"
+    assert "No solution exists for this system." in result["message"]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  import numpy as np</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  from api.operations.linear_system import LinearSystemOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestLinearSystemOperation:</span>
+<span class="diff-unchanged">      def test_unique_solution_returns_correct_result(self):</span>
+<span class="diff-unchanged">          # A is a 2x2 invertible matrix, b is a vector</span>
+<span class="diff-unchanged">          A = [[2, 1], [1, 3]]</span>
+<span class="diff-unchanged">          b = [8, 13]</span>
+<span class="diff-unchanged">          params = {"A": A, "b": b}</span>
+<span class="diff-unchanged">          result = LinearSystemOperation.calculate(params)</span>
+<span class="diff-unchanged">          assert result["solution_type"] == "unique"</span>
+<span class="diff-unchanged">          # The expected solution is x = [3, 2]</span>
+<span class="diff-unchanged">          expected_solution = np.linalg.solve(np.array(A), np.array(b)).tolist()</span>
+<span class="diff-unchanged">          np.testing.assert_allclose(result["solution"], expected_solution, rtol=1e-7, atol=1e-7)</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_metadata(self):</span>
+<span class="diff-added">+         metadata = LinearSystemOperation.metadata()</span>
+<span class="diff-added">+         assert metadata["operation_id"] == "linear_system"</span>
+<span class="diff-added">+         assert metadata["name"] == "Linear Equation System Solver"</span>
+<span class="diff-added">+         assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."</span>
+<span class="diff-added">+         assert isinstance(metadata["parameters"], list)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          assert "Unique solution found." in result["message"]</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_linear_system.py .F                                       [100%]
+
+=================================== FAILURES ===================================
+___________________ TestLinearSystemOperation.test_metadata ____________________
+
+self = <api.tests.test_linear_system.TestLinearSystemOperation object at 0x7fc0e4f074f0>
+
+    def test_metadata(self):
+        metadata = LinearSystemOperation.metadata()
+        assert metadata["operation_id"] == "linear_system"
+        assert metadata["name"] == "Linear Equation System Solver"
+        assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."
+        assert isinstance(metadata["parameters"], list)
+    
+>       assert "Unique solution found." in result["message"]
+E       NameError: name 'result' is not defined
+
+api/tests/test_linear_system.py:25: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30     30     0%
+api/operations/linear_system.py         27      4    85%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      11     11     0%
+api/tests/test_linear_system.py         19      0   100%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     26    45%
+--------------------------------------------------------
+TOTAL                                  317    240    24%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_linear_system.py::TestLinearSystemOperation::test_metadata - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_metadata(self):
+    metadata = LinearSystemOperation.metadata()
+    assert metadata["operation_id"] == "linear_system"
+    assert metadata["name"] == "Linear Equation System Solver"
+    assert metadata["description"] == "Solves a linear system Ax = b. Handles unique, infinite, or no solutions."
+    assert isinstance(metadata["parameters"], list)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_a_is_zero(self):</span>
+<span class="diff-added">+         params = {"a": 0, "b": 1, "c": 1, "d": 1}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):</span>
+<span class="diff-added">+             CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_a_is_zero _________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f73e8f03f70>
+
+    def test_cubic_polynomial_a_is_zero(self):
+        params = {"a": 0, "b": 1, "c": 1, "d": 1}
+        with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+            CubicPolynomialOperation.calculate(params)
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:20: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      15      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  315    245    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_a_is_zero - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_a_is_zero(self):
+    params = {"a": 0, "b": 1, "c": 1, "d": 1}
+    with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+        CubicPolynomialOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_complex_roots(self):</span>
+<span class="diff-added">+         # Example equation with complex roots: x^3 - x^2 + x - 1 = 0</span>
+<span class="diff-added">+         params = {"a": 1, "b": -1, "c": 1, "d": -1}</span>
+<span class="diff-added">+         result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+         roots = [r for r in result["roots"] if r["type"] == "complex"]</span>
+<span class="diff-added">+         assert len(roots) == 2</span>
+<span class="diff-added">+         # Check for real root</span>
+<span class="diff-added">+         real_roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-added">+         assert len(real_roots) == 1</span>
+<span class="diff-added">+         assert abs(real_roots[0]["value"] - 1.0) < 1e-8</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_______ TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots _______
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f5c1f023eb0>
+
+    def test_cubic_polynomial_complex_roots(self):
+        # Example equation with complex roots: x^3 - x^2 + x - 1 = 0
+        params = {"a": 1, "b": -1, "c": 1, "d": -1}
+        result = CubicPolynomialOperation.calculate(params)
+        roots = [r for r in result["roots"] if r["type"] == "complex"]
+        assert len(roots) == 2
+        # Check for real root
+        real_roots = [r for r in result["roots"] if r["type"] == "real"]
+        assert len(real_roots) == 1
+        assert abs(real_roots[0]["value"] - 1.0) < 1e-8
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       assert False
+E        +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f5c1e9246d0>)
+
+api/tests/test_cubic_polynomial.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      19      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  319    245    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_complex_roots - assert False
+ +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f5c1e9246d0>)
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_complex_roots(self):
+    # Example equation with complex roots: x^3 - x^2 + x - 1 = 0
+    params = {"a": 1, "b": -1, "c": 1, "d": -1}
+    result = CubicPolynomialOperation.calculate(params)
+    roots = [r for r in result["roots"] if r["type"] == "complex"]
+    assert len(roots) == 2
+    # Check for real root
+    real_roots = [r for r in result["roots"] if r["type"] == "real"]
+    assert len(real_roots) == 1
+    assert abs(real_roots[0]["value"] - 1.0) < 1e-8
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_metadata(self):</span>
+<span class="diff-added">+         metadata = CubicPolynomialOperation.metadata()</span>
+<span class="diff-added">+         assert metadata["operation_id"] == "cubic_polynomial"</span>
+<span class="diff-added">+         assert metadata["name"] == "Cubic Polynomial Solver"</span>
+<span class="diff-added">+         assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"</span>
+<span class="diff-added">+         assert len(metadata["parameters"]) == 4</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_metadata __________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f761cb03e80>
+
+    def test_cubic_polynomial_metadata(self):
+        metadata = CubicPolynomialOperation.metadata()
+        assert metadata["operation_id"] == "cubic_polynomial"
+        assert metadata["name"] == "Cubic Polynomial Solver"
+        assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+        assert len(metadata["parameters"]) == 4
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:22: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      2    93%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      17      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     27    43%
+--------------------------------------------------------
+TOTAL                                  317    238    25%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_metadata - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_metadata(self):
+    metadata = CubicPolynomialOperation.metadata()
+    assert metadata["operation_id"] == "cubic_polynomial"
+    assert metadata["name"] == "Cubic Polynomial Solver"
+    assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+    assert len(metadata["parameters"]) == 4
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_a_is_zero(self):</span>
+<span class="diff-added">+         params = {"a": 0, "b": 1, "c": 1, "d": 1}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):</span>
+<span class="diff-added">+             CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_a_is_zero _________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7ff8b6febe20>
+
+    def test_cubic_polynomial_a_is_zero(self):
+        params = {"a": 0, "b": 1, "c": 1, "d": 1}
+        with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+            CubicPolynomialOperation.calculate(params)
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:20: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      15      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  315    245    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_a_is_zero - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_a_is_zero(self):
+    params = {"a": 0, "b": 1, "c": 1, "d": 1}
+    with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+        CubicPolynomialOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_complex_roots(self):</span>
+<span class="diff-added">+         # Example equation with complex roots: x^3 - x^2 + x - 1 = 0</span>
+<span class="diff-added">+         params = {"a": 1, "b": -1, "c": 1, "d": -1}</span>
+<span class="diff-added">+         result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+         roots = [r for r in result["roots"] if r["type"] == "complex"]</span>
+<span class="diff-added">+         assert len(roots) == 2</span>
+<span class="diff-added">+         # Check for real root</span>
+<span class="diff-added">+         real_roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-added">+         assert len(real_roots) == 1</span>
+<span class="diff-added">+         assert abs(real_roots[0]["value"] - 1.0) < 1e-8</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_______ TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots _______
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f2dc01fbeb0>
+
+    def test_cubic_polynomial_complex_roots(self):
+        # Example equation with complex roots: x^3 - x^2 + x - 1 = 0
+        params = {"a": 1, "b": -1, "c": 1, "d": -1}
+        result = CubicPolynomialOperation.calculate(params)
+        roots = [r for r in result["roots"] if r["type"] == "complex"]
+        assert len(roots) == 2
+        # Check for real root
+        real_roots = [r for r in result["roots"] if r["type"] == "real"]
+        assert len(real_roots) == 1
+        assert abs(real_roots[0]["value"] - 1.0) < 1e-8
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       assert False
+E        +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f2db4d386d0>)
+
+api/tests/test_cubic_polynomial.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      19      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  319    245    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_complex_roots - assert False
+ +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f2db4d386d0>)
+========================= 1 failed, 1 passed in 0.21s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_complex_roots(self):
+    # Example equation with complex roots: x^3 - x^2 + x - 1 = 0
+    params = {"a": 1, "b": -1, "c": 1, "d": -1}
+    result = CubicPolynomialOperation.calculate(params)
+    roots = [r for r in result["roots"] if r["type"] == "complex"]
+    assert len(roots) == 2
+    # Check for real root
+    real_roots = [r for r in result["roots"] if r["type"] == "real"]
+    assert len(real_roots) == 1
+    assert abs(real_roots[0]["value"] - 1.0) < 1e-8
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_metadata(self):</span>
+<span class="diff-added">+         metadata = CubicPolynomialOperation.metadata()</span>
+<span class="diff-added">+         assert metadata["operation_id"] == "cubic_polynomial"</span>
+<span class="diff-added">+         assert metadata["name"] == "Cubic Polynomial Solver"</span>
+<span class="diff-added">+         assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"</span>
+<span class="diff-added">+         assert len(metadata["parameters"]) == 4</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_metadata __________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7fe9d4f54040>
+
+    def test_cubic_polynomial_metadata(self):
+        metadata = CubicPolynomialOperation.metadata()
+        assert metadata["operation_id"] == "cubic_polynomial"
+        assert metadata["name"] == "Cubic Polynomial Solver"
+        assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+        assert len(metadata["parameters"]) == 4
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:22: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      2    93%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      17      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     27    43%
+--------------------------------------------------------
+TOTAL                                  317    238    25%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_metadata - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_metadata(self):
+    metadata = CubicPolynomialOperation.metadata()
+    assert metadata["operation_id"] == "cubic_polynomial"
+    assert metadata["name"] == "Cubic Polynomial Solver"
+    assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+    assert len(metadata["parameters"]) == 4
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_a_is_zero(self):</span>
+<span class="diff-added">+         params = {"a": 0, "b": 1, "c": 1, "d": 1}</span>
+<span class="diff-added">+         with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):</span>
+<span class="diff-added">+             CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_a_is_zero _________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f721cd03e50>
+
+    def test_cubic_polynomial_a_is_zero(self):
+        params = {"a": 0, "b": 1, "c": 1, "d": 1}
+        with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+            CubicPolynomialOperation.calculate(params)
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:20: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      15      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  315    245    22%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_a_is_zero - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_a_is_zero(self):
+    params = {"a": 0, "b": 1, "c": 1, "d": 1}
+    with pytest.raises(ValueError, match="Coefficient a must not be zero for a cubic equation."):
+        CubicPolynomialOperation.calculate(params)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">import pytest
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_complex_roots(self):</span>
+<span class="diff-added">+         # Example equation with complex roots: x^3 + x = 0, roots are 0, i, -i</span>
+<span class="diff-added">+         params = {"a": 1, "b": 0, "c": 1, "d": 0}</span>
+<span class="diff-added">+         result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-added">+         roots = result["roots"]</span>
+<span class="diff-added">+         complex_roots = [r for r in roots if r["type"] == "complex"]</span>
+<span class="diff-added">+         real_roots = [r for r in roots if r["type"] == "real"]</span>
+<span class="diff-added">+         assert len(complex_roots) == 2</span>
+<span class="diff-added">+         assert len(real_roots) == 1</span>
+<span class="diff-added">+         assert abs(real_roots[0]["value"]) < 1e-8</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_______ TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots _______
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f6608bfbeb0>
+
+    def test_cubic_polynomial_complex_roots(self):
+        # Example equation with complex roots: x^3 + x = 0, roots are 0, i, -i
+        params = {"a": 1, "b": 0, "c": 1, "d": 0}
+        result = CubicPolynomialOperation.calculate(params)
+        roots = result["roots"]
+        complex_roots = [r for r in roots if r["type"] == "complex"]
+        real_roots = [r for r in roots if r["type"] == "real"]
+        assert len(complex_roots) == 2
+        assert len(real_roots) == 1
+        assert abs(real_roots[0]["value"]) < 1e-8
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       assert False
+E        +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f65fd740660>)
+
+api/tests/test_cubic_polynomial.py:26: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      3    90%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      20      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     33    30%
+--------------------------------------------------------
+TOTAL                                  320    245    23%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_complex_roots - assert False
+ +  where False = all(<generator object TestCubicPolynomialOperation.test_cubic_polynomial_complex_roots.<locals>.<genexpr> at 0x7f65fd740660>)
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_complex_roots(self):
+    # Example equation with complex roots: x^3 + x = 0, roots are 0, i, -i
+    params = {"a": 1, "b": 0, "c": 1, "d": 0}
+    result = CubicPolynomialOperation.calculate(params)
+    roots = result["roots"]
+    complex_roots = [r for r in roots if r["type"] == "complex"]
+    real_roots = [r for r in roots if r["type"] == "real"]
+    assert len(complex_roots) == 2
+    assert len(real_roots) == 1
+    assert abs(real_roots[0]["value"]) < 1e-8
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python"></code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Test failed</td>
+                <td>1</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  import pytest</span>
+<span class="diff-unchanged">  from api.operations.cubic_polynomial import CubicPolynomialOperation</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  class TestCubicPolynomialOperation:</span>
+<span class="diff-unchanged">      def test_cubic_polynomial_three_real_roots(self):</span>
+<span class="diff-unchanged">          # Equation: x^3 - 6x^2 + 11x - 6 = 0 has roots 1, 2, 3</span>
+<span class="diff-unchanged">          params = {"a": 1, "b": -6, "c": 11, "d": -6}</span>
+<span class="diff-unchanged">          result = CubicPolynomialOperation.calculate(params)</span>
+<span class="diff-unchanged">          roots = [r for r in result["roots"] if r["type"] == "real"]</span>
+<span class="diff-unchanged">          root_values = sorted([round(r["value"], 8) for r in roots])</span>
+<span class="diff-unchanged">          assert len(roots) == 3</span>
+<span class="diff-unchanged">          assert root_values == [1.0, 2.0, 3.0]</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+     def test_cubic_polynomial_metadata(self):</span>
+<span class="diff-added">+         metadata = CubicPolynomialOperation.metadata()</span>
+<span class="diff-added">+         assert metadata["operation_id"] == "cubic_polynomial"</span>
+<span class="diff-added">+         assert metadata["name"] == "Cubic Polynomial Solver"</span>
+<span class="diff-added">+         assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"</span>
+<span class="diff-added">+         assert len(metadata["parameters"]) == 4</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">          # Ensure no complex roots</span>
+<span class="diff-unchanged">          assert all(r["type"] == "real" for r in result["roots"])</span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/mathodian/mathodian
+plugins: cov-6.1.1
+collected 2 items
+
+api/tests/test_cubic_polynomial.py .F                                    [100%]
+
+=================================== FAILURES ===================================
+_________ TestCubicPolynomialOperation.test_cubic_polynomial_metadata __________
+
+self = <api.tests.test_cubic_polynomial.TestCubicPolynomialOperation object at 0x7f2e19de7f10>
+
+    def test_cubic_polynomial_metadata(self):
+        metadata = CubicPolynomialOperation.metadata()
+        assert metadata["operation_id"] == "cubic_polynomial"
+        assert metadata["name"] == "Cubic Polynomial Solver"
+        assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+        assert len(metadata["parameters"]) == 4
+    
+        # Ensure no complex roots
+>       assert all(r["type"] == "real" for r in result["roots"])
+E       NameError: name 'result' is not defined
+
+api/tests/test_cubic_polynomial.py:22: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+api/__init__.py                          0      0   100%
+api/operation_registry.py               19      5    74%
+api/operations/__init__.py               0      0   100%
+api/operations/combinatorics.py         39     39     0%
+api/operations/cubic_polynomial.py      30      2    93%
+api/operations/linear_system.py         27     27     0%
+api/result_rendering_registry.py        19     19     0%
+api/tests/__init__.py                    0      0   100%
+api/tests/test_combinatorics.py         40     40     0%
+api/tests/test_cubic_polynomial.py      17      0   100%
+api/tests/test_linear_system.py         13     13     0%
+app.py                                  66     66     0%
+models/__init__.py                       0      0   100%
+models/parameters.py                    47     27    43%
+--------------------------------------------------------
+TOTAL                                  317    238    25%
+Coverage XML written to file coverage.xml
+=========================== short test summary info ============================
+FAILED api/tests/test_cubic_polynomial.py::TestCubicPolynomialOperation::test_cubic_polynomial_metadata - NameError: name 'result' is not defined
+========================= 1 failed, 1 passed in 0.20s ==========================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_cubic_polynomial_metadata(self):
+    metadata = CubicPolynomialOperation.metadata()
+    assert metadata["operation_id"] == "cubic_polynomial"
+    assert metadata["name"] == "Cubic Polynomial Solver"
+    assert metadata["description"] == "Finds the real and complex roots of a cubic polynomial: ax³ + bx² + cx + d = 0"
+    assert len(metadata["parameters"]) == 4
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python"></code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+        </table>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    </body>
+    </html>
+    
