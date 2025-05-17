@@ -4,4 +4,14 @@
     <h2>Welcome to Mathodian</h2>
     <p>Select a mathematical operation from the menu above.</p>
 </div>
+<div class="comments-section">
+    <h3>Comments</h3>
+    <form method="post" action="/submit-comment">
+        <textarea name="comment" placeholder="Enter your comment here"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="comments-list">
+        <!-- Comments will be displayed here -->
+    </div>
+</div>
 {% endblock %}

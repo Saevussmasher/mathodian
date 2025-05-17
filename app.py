@@ -21,10 +21,14 @@ def load_renderings():
 
 load_renderings()
 
+# Temporary storage for comments
+comments = []
+
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
 @app.route("/")
 def index():
+    # Comments will be fetched by the client-side JavaScript
     return render_template("index.html")
 
 @app.route("/operation/<operation_id>")
@@ -78,6 +82,20 @@ def api_rendering(operation_id):
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory(app.static_folder, filename)
+
+# New route for comment submission
+@app.route("/api/submit-comment", methods=["POST"])
+def submit_comment():
+    comment = request.json.get("comment")
+    if comment: # Ensure comment is not empty
+        comments.insert(0,comment)
+    # Always return the current list of comments, even if submission was empty
+    return jsonify({"success": True, "comments": comments})
+
+# New API endpoint to fetch comments
+@app.route("/api/comments", methods=["GET"])
+def api_get_comments():
+    return jsonify({"success": True, "comments": comments})
 
 if __name__ == "__main__":
     app.run(debug=True)

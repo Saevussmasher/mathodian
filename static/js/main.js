@@ -43,6 +43,8 @@ async function renderSidebarMenu() {
 window.addEventListener("DOMContentLoaded", () => {
     setupBurgerMenu();
     renderSidebarMenu();
+    setupCommentForm();
+    fetchComments();
 });
 
 // Render operation form dynamically
@@ -130,5 +132,65 @@ async function renderResult(operationId, result) {
             return `<pre>${JSON.stringify(result, null, 2)}</pre>`;
         }
         return `<div>${result}</div>`;
+    }
+}
+
+// --- Comment Functionality ---
+
+function renderComments(comments) {
+    const commentsList = document.querySelector('.comments-list');
+    if (!commentsList) return;
+    commentsList.innerHTML = comments.map(comment =>
+        `<div class="comment">${comment}</div>`
+    ).join('');
+}
+
+// Submit comment via AJAX and update comment list
+function setupCommentForm() {
+    const form = document.querySelector('.comments-section form');
+    if (!form) return;
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const textarea = form.querySelector('textarea[name="comment"]');
+        if (!textarea) return;
+        const comment = textarea.value;
+        if (!comment) return;
+        
+        try {
+            const resp = await fetch('/api/submit-comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ comment })
+            });
+            const data = await resp.json();
+            if (data.success) {
+                fetchComments();
+                textarea.value = '';
+            } else {
+                throw new Error(data.error || 'Failed to submit comment');
+            }
+        } catch (err) {
+            console.error('Comment submission error:', err);
+            alert('Failed to submit comment.');
+        }
+    });
+}
+
+// Fetch comments for the current page/operation
+async function fetchComments() {
+    const commentsList = document.querySelector('.comments-list');
+    if (!commentsList) return;
+    
+    try {
+        const resp = await fetch(`/api/comments`);
+        const data = await resp.json();
+        if (data.success) {
+            renderComments(data.comments);
+        }
+    } catch (err) {
+        console.error('Error fetching comments:', err);
+        commentsList.innerHTML = '<div class="error">Failed to load comments</div>';
     }
 }
