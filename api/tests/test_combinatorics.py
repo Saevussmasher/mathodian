@@ -35,3 +35,16 @@ class TestCombinatoricsOperation:
         params = {"n": 5, "k": 3, "problem_type": 5}
         with pytest.raises(ValueError, match="Invalid problem type."):
             CombinatoricsOperation.calculate(params)
+
+    def test_combinations_with_repetition_k_is_zero(self):
+        params = {"n": 5, "k": 0, "problem_type": 4}
+        result = CombinatoricsOperation.calculate(params)
+        assert result["result"] == 1
+        assert result["problem_type"] == "Combinations with repetition"
+
+
+    def test_combinations_with_repetition_valid(self):
+        params = {"n": 5, "k": 3, "problem_type": 4}
+        result = CombinatoricsOperation.calculate(params)
+        assert result["result"] == 35
+        assert result["problem_type"] == "Combinations with repetition"
